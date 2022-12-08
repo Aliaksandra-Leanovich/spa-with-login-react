@@ -3,9 +3,9 @@ import { MainTemplate } from "../components/MainTemplate";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
 import { routes } from "../routes/routes";
-import { useAppSelector } from "../store/hooks/hooks";
-import { getUserInfo } from "../store/selectors/userSelector";
-import { PrivateRoute } from "../utils/PrivateRoute";
+import { useAppSelector } from "../store/hooks";
+import { getUserInfo } from "../store/selectors";
+import { PrivateRoute } from "../utils";
 
 export const AppRouter = () => {
   const { isAuthorized } = useAppSelector(getUserInfo);

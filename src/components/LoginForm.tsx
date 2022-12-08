@@ -8,7 +8,7 @@ import { getAuthError, validationSchema } from "../helper";
 import { routes } from "../routes/routes";
 import { useAppDispatch } from "../store/hooks";
 import { setUserToken } from "../store/slices/userSlice";
-import { app } from "../utils/firebase";
+import { app } from "../utils";
 import Input from "./Input";
 import { IUserForm } from "./types";
 
