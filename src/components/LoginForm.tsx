@@ -4,39 +4,22 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import * as Yup from "yup";
 import { routes } from "../routes/routes";
 import { useAppDispatch } from "../store/hooks/hooks";
 import { setUserToken } from "../store/slices/userSlice";
+import { getAuthError, validationSchema } from "../utils/errorsHanding";
 import { app } from "../utils/firebase";
 import Input from "./Input";
 import { IUserForm } from "./types";
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string().required("Email is required").email("Email is invalid"),
-  password: Yup.string().required("Password is required"),
-});
-
-const getAuthError = (error: string) => {
-  switch (error) {
-    case "auth/user-not-found":
-      return "No user found with this email.";
-    case "auth/user-disabled":
-      return "User disabled.";
-    case "auth/invalid-email":
-      return " Wrong email/password combination.";
-    case "auth/wrong-password":
-      return "Wrong email/password combination.";
-    default:
-      return "An unexpected error occurred.";
-  }
-};
 
 export const LoginForm = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const localStorageKey = "userToken";
+
   const [error, setError] = useState("");
+
   const {
     register,
     handleSubmit,
@@ -45,17 +28,19 @@ export const LoginForm = () => {
     resolver: yupResolver(validationSchema),
   });
 
+  const setUserTokenToStorage = (token: string) => {
+    localStorage.setItem(localStorageKey, token);
+    dispatch(setUserToken(token));
+  };
+
   const onSubmit = (data: IUserForm) => {
     const auth = getAuth(app);
+
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(async (userCredential) => {
         const token = await userCredential.user.getIdToken();
-        localStorage.setItem("userToken", token);
-        dispatch(setUserToken(token));
-
-        if (localStorage.getItem("userToken")) {
-          navigate(routes.HOME);
-        }
+        setUserTokenToStorage(token);
+        navigate(routes.HOME);
       })
       .catch((error) => {
         setError(getAuthError(error.code));
@@ -75,7 +60,7 @@ export const LoginForm = () => {
         <Input
           type="password"
           label="password"
-          errors={errors.password?.message || error}
+          errors={errors.password?.message}
           register={register}
           placeholder="Enter your password"
         />

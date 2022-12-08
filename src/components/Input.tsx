@@ -8,7 +8,12 @@ const Input = ({ type, placeholder, errors, label, register }: IInputProps) => {
       <TextField
         variant="outlined"
         size="small"
-        sx={{ width: "100%" }}
+        sx={{
+          width: "100%",
+          ".MuiFormHelperText-root": {
+            color: "rgb(211, 25, 25)",
+          },
+        }}
         placeholder={placeholder}
         type={type}
         {...register(label)}
