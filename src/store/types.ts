@@ -1,4 +1,4 @@
 export interface IUserStore {
   isAuthorized: string | null | void;
-  token: string;
+  token: string | null;
 }

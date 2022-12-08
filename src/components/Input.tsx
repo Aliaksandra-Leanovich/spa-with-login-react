@@ -12,7 +12,7 @@ const Input = ({ type, placeholder, errors, label, register }: IInputProps) => {
         placeholder={placeholder}
         type={type}
         {...register(label)}
-        helperText={errors ? errors.message : " "}
+        helperText={errors ? errors : " "}
       />
     </Box>
   );

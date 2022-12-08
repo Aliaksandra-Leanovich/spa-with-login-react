@@ -1,10 +1,5 @@
 import { InputHTMLAttributes } from "react";
-import {
-  FieldError,
-  FieldValues,
-  Path,
-  UseFormRegister,
-} from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 
 interface IFormValues {
   email: string;
@@ -17,7 +12,7 @@ interface IRegister extends FieldValues, IFormValues {}
 export interface IInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: Path<IFormValues>;
   register: UseFormRegister<IRegister>;
-  errors: FieldError | undefined;
+  errors: undefined | string;
 }
 
 export interface IUserForm {

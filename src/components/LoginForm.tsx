@@ -1,6 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button } from "@mui/material";
-import Typography from "@mui/material/Typography";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -51,10 +50,10 @@ export const LoginForm = () => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(async (userCredential) => {
         const token = await userCredential.user.getIdToken();
-        localStorage.setItem("user", token);
+        localStorage.setItem("userToken", token);
         dispatch(setUserToken(token));
 
-        if (localStorage.getItem("user")) {
+        if (localStorage.getItem("userToken")) {
           navigate(routes.HOME);
         }
       })
@@ -65,19 +64,18 @@ export const LoginForm = () => {
 
   return (
     <Box sx={{ width: "250px" }}>
-      {error && <Typography>{error}</Typography>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           type="email"
           label="email"
-          errors={errors.email}
+          errors={errors.email?.message || error}
           register={register}
           placeholder="Enter your email"
         />
         <Input
           type="password"
           label="password"
-          errors={errors.password}
+          errors={errors.password?.message || error}
           register={register}
           placeholder="Enter your password"
         />

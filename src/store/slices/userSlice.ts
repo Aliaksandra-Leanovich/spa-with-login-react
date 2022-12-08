@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IUserStore } from "../types";
 
 const initialState: IUserStore = {
-  isAuthorized: localStorage.getItem("user"),
-  token: "",
+  isAuthorized: localStorage.getItem("userToken"),
+  token: localStorage.getItem("userToken"),
 };
 
 const userSlice = createSlice({
@@ -11,12 +11,12 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUserToken: (state, action) => {
-      state.isAuthorized = localStorage.getItem("user");
+      state.isAuthorized = localStorage.getItem("userToken");
       state.token = action.payload;
     },
 
     unsetUser: (state) => {
-      state.isAuthorized = localStorage.removeItem("user");
+      state.isAuthorized = localStorage.removeItem("userToken");
       state.token = "";
     },
   },
