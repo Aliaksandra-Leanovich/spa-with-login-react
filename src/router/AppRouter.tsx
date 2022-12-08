@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { MainTemplate } from "../components/MainTemplate";
 import { Home } from "../pages/Home";
 import { Login } from "../pages/Login";
-import { routes } from "../routes/routes";
+import { routes } from "../routes";
 import { useAppSelector } from "../store/hooks";
 import { getUserInfo } from "../store/selectors";
 import { PrivateRoute } from "../utils";

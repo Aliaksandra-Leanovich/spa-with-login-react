@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { getAuthError, validationSchema } from "../helper";
-import { routes } from "../routes/routes";
+import { routes } from "../routes";
 import { useAppDispatch } from "../store/hooks";
 import { setUserToken } from "../store/slices/userSlice";
 import { app } from "../utils";
