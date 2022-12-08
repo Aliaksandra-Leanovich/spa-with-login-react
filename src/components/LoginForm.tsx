@@ -1,5 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Button } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -11,7 +12,6 @@ import { setUserToken } from "../store/slices/userSlice";
 import { app } from "../utils/firebase";
 import Input from "./Input";
 import { IUserForm } from "./types";
-import Typography from "@mui/material/Typography";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email("Email is invalid"),
@@ -64,7 +64,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <Box sx={{ width: "250px", padding: "26px", position: "relative" }}>
+    <Box sx={{ width: "250px" }}>
       {error && <Typography>{error}</Typography>}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input

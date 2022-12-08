@@ -1,11 +1,11 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { MainTemplate } from "../components/MainTemplate";
 import { Home } from "../pages/Home";
-import { routes } from "../routes/routes";
-import { PrivateRoute } from "../utils/PrivateRoute";
 import { Login } from "../pages/Login";
-import { getUserInfo } from "../store/selectors/userSelector";
+import { routes } from "../routes/routes";
 import { useAppSelector } from "../store/hooks/hooks";
+import { getUserInfo } from "../store/selectors/userSelector";
+import { PrivateRoute } from "../utils/PrivateRoute";
 
 export const AppRouter = () => {
   const { isAuthorized } = useAppSelector(getUserInfo);
