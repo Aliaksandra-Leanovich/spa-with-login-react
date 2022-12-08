@@ -1,10 +1,18 @@
-import React from "react";
 import { LoginForm } from "../components/LoginForm";
+import Box from "@mui/material/Box";
 
 export const Login = () => {
   return (
-    <div>
+    <Box
+      sx={{
+        width: "100%",
+        height: "80vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <LoginForm />
-    </div>
+    </Box>
   );
 };

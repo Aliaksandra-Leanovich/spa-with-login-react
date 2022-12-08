@@ -1,19 +1,17 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { routes } from "../routes/routes";
+import { useAppDispatch } from "../store/hooks/hooks";
+import { setUserToken } from "../store/slices/userSlice";
 import { app } from "../utils/firebase";
 import Input from "./Input";
-
-export interface IUserForm {
-  email: string;
-  password: string;
-  errors?: string;
-}
+import { IUserForm } from "./types";
+import Typography from "@mui/material/Typography";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("Email is required").email("Email is invalid"),
@@ -37,6 +35,8 @@ const getAuthError = (error: string) => {
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [error, setError] = useState("");
   const {
     register,
@@ -52,7 +52,11 @@ export const LoginForm = () => {
       .then(async (userCredential) => {
         const token = await userCredential.user.getIdToken();
         localStorage.setItem("user", token);
-        navigate(routes.HOME);
+        dispatch(setUserToken(token));
+
+        if (localStorage.getItem("user")) {
+          navigate(routes.HOME);
+        }
       })
       .catch((error) => {
         setError(getAuthError(error.code));
@@ -60,9 +64,9 @@ export const LoginForm = () => {
   };
 
   return (
-    <div>
+    <Box sx={{ width: "250px", padding: "26px", position: "relative" }}>
+      {error && <Typography>{error}</Typography>}
       <form onSubmit={handleSubmit(onSubmit)}>
-        <p>{error}</p>
         <Input
           type="email"
           label="email"
@@ -80,12 +84,12 @@ export const LoginForm = () => {
         <Button
           variant="contained"
           className="normal-case"
+          sx={{ width: "100%" }}
           type="submit"
-          disabled={Object.keys(errors).length > 0}
         >
           Login
         </Button>
       </form>
-    </div>
+    </Box>
   );
 };
